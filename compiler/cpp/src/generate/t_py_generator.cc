@@ -391,7 +391,8 @@ string t_py_generator::py_autogen_comment() {
  * Prints standard thrift imports
  */
 string t_py_generator::py_imports() {
-  return string("from thrift.Thrift import TType, TMessageType, TException, TApplicationException");
+  return string("from thrift.Thrift import TType, TMessageType, TException, TApplicationException\n"
+                "from collections import OrderedDict");
 }
 
 /**
@@ -1954,7 +1955,7 @@ void t_py_generator::generate_deserialize_container(ofstream& out, t_type* ttype
 
   // Declare variables, read header
   if (ttype->is_map()) {
-    out << indent() << prefix << " = {}" << endl << indent() << "(" << ktype << ", " << vtype
+    out << indent() << prefix << " = OrderedDict()" << endl << indent() << "(" << ktype << ", " << vtype
         << ", " << size << " ) = iprot.readMapBegin()" << endl;
   } else if (ttype->is_set()) {
     out << indent() << prefix << " = set()" << endl << indent() << "(" << etype << ", " << size
