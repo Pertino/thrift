@@ -423,6 +423,7 @@ string t_py_generator::py_imports() {
   if (gen_utf8strings_) {
     ss << endl << "import sys";
   }
+  ss << "from collections import OrderedDict";
   return ss.str();
 }
 
@@ -2141,8 +2142,8 @@ void t_py_generator::generate_deserialize_container(ofstream& out, t_type* ttype
 
   // Declare variables, read header
   if (ttype->is_map()) {
-    out << indent() << prefix << " = {}" << endl << indent() << "(" << ktype << ", " << vtype
-        << ", " << size << ") = iprot.readMapBegin()" << endl;
+    out << indent() << prefix << " = OrderedDict()" << indent() << "(" << ktype << ", " << vtype
+        << ", " << size << " ) = iprot.readMapBegin()" << endl;
   } else if (ttype->is_set()) {
     out << indent() << prefix << " = set()" << endl << indent() << "(" << etype << ", " << size
         << ") = iprot.readSetBegin()" << endl;
