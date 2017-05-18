@@ -64,13 +64,11 @@ else(ANDROID)
         DEPENDS ${ThriftJava_ARTIFACTS}
     )
 
-    # Hook the ant install task into CMake install
-    install(CODE "execute_process(
-        COMMAND ${Ant_EXECUTABLE} ${ANT_FLAGS} install
-        -Dbuild.dir=\"${CMAKE_CURRENT_BINARY_DIR}\"
-        -Dinstall.path=\"${JAVA_INSTALL_DIR}\" -Dinstall.javadoc.path=\"${JAVA_DOC_INSTALL_DIR}\" -f build.xml
-        WORKING_DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR}
-    )")
+    # Work-around THRIFT-4178 and install things manually...
+    foreach (_artifacts ${ThriftJava_ARTIFACTS})
+        install(FILES "${CMAKE_BINARY_DIR}/lib/java/${_artifacts}" DESTINATION "lib/java")
+    endforeach()
+    install(DIRECTORY "${CMAKE_BINARY_DIR}/lib/java/lib/" DESTINATION "lib/java")
 
     if(BUILD_TESTING)
         add_test(NAME JavaTest
