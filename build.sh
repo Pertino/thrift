@@ -18,6 +18,7 @@ build_timestamp "started"
 
 # Options
 BUILD_ONLY=${BUILD_ONLY:=NO}
+BUILD_NUMBER=${BUILD_NUMBER:=0}
 WORKSPACE=${WORKSPACE:=$(dirname $0)}
 
 cd ${WORKSPACE}
@@ -25,7 +26,7 @@ cd ${WORKSPACE}
 mkdir obj
 cd obj
 
-PACKAGE_VENDOR_VERSION_SUFFIX="cp0"
+PACKAGE_VENDOR_VERSION_SUFFIX="cp${BUILD_NUMBER}"
 
 cmake \
 	-DCMAKE_BUILD_TYPE=Release \
